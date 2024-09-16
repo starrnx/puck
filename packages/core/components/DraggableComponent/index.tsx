@@ -106,6 +106,11 @@ export const DraggableComponent = ({
     [overrides.actionBar]
   );
 
+  const CustomDragHandle = useMemo(
+    () => overrides.dragHandle,
+    [overrides.dragHandle]
+  );
+
   const permissions = getPermissions({
     item: selectedItem,
   });
@@ -121,8 +126,8 @@ export const DraggableComponent = ({
       {(provided, snapshot) => (
         <div
           ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
+          {...(!CustomDragHandle && provided.draggableProps)}
+          {...(!CustomDragHandle && provided.dragHandleProps)}
           className={getClassName({
             isSelected,
             isModifierHeld,
@@ -142,6 +147,16 @@ export const DraggableComponent = ({
           onMouseUp={onMouseUp}
           onClick={onClick}
         >
+          {CustomDragHandle && (
+            <span
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              className={getClassName("dragHandle")}
+            >
+              <CustomDragHandle />
+            </span>
+          )}
+
           {debug}
           {isLoading && (
             <div className={getClassName("loadingOverlay")}>

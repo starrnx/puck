@@ -25,6 +25,7 @@ export type OverrideKey = (typeof overrideKeys)[number];
 type OverridesGeneric<Shape extends { [key in OverrideKey]: any }> = Shape;
 
 export type Overrides = OverridesGeneric<{
+  dragHandle?: RenderFunc<{ className?: string }>;
   fieldTypes: Partial<FieldRenderFunctions>;
   header: RenderFunc<{ actions: ReactNode; children: ReactNode }>;
   actionBar: RenderFunc<{
